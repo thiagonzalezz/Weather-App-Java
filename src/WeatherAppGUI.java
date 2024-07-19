@@ -85,6 +85,12 @@ public class WeatherAppGUI extends JFrame {
         windSpeedImage.setBounds(220, 500, 74, 66);
         add(windSpeedImage);
 
+        // windspeed text
+        JLabel windSpeedText = new JLabel("<html><b>Windspeed</b> 15km/h</html>");
+        windSpeedText.setBounds(310, 500, 85, 55);
+        windSpeedText.setFont(new Font("Dialog", Font.PLAIN, 16));
+        add(windSpeedText);
+
     }
 
     // used to create images in our gui components
