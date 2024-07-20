@@ -4,6 +4,8 @@ import org.json.simple.parser.JSONParser;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 // retrieve weather data from API - this backend logic will fetch the latest weather
@@ -56,6 +58,15 @@ public class WeatherApp {
 
             // retrieve hourly data
             JSONObject hourly = (JSONObject) resultJsonObj.get("hourly");
+
+            // we want to get the current hour's data
+            // so,  we need to get the index of our current hour
+            JSONArray time = (JSONArray) hourly.get("time");
+            int index = findIndexOfCurrentTime(time);
+
+            JSONArray 
+
+
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -132,5 +143,33 @@ public class WeatherApp {
         }
         // could not make connection
         return null;
+    }
+
+    private static int findIndexOfCurrentTime(JSONArray timeList){
+        String currentTime = getCurrentTime();
+
+        // iterate through the time list and see which one matches our current time
+        for(int i = 0; i < timeList.size(); i++){
+            String time = (String) timeList.get(i);
+            if(time.equalsIgnoreCase(currentTime)){
+                // return the index
+                return i;
+            }
+        }
+
+        return 0;
+    }
+
+    public static String getCurrentTime(){
+        // get current date and time
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        // format date to be 2024-07-20T00:00 (this is how it is read in the API)
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH':00'");
+
+        // format and print the current date and time
+        String formattedDateTime = currentDateTime.format(formatter);
+
+        return formattedDateTime;
     }
 }
